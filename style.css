@@ -335,3 +335,90 @@ canvas#gameCanvas {
     width: 100%;
     text-align: center;
 }
+
+/* Touch Virtual Gamepad for Mobile Phones & Tablets */
+.touch-controls {
+    display: none;
+    width: 100%;
+    max-width: 800px;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 12px;
+    gap: 16px;
+    touch-action: none;
+    z-index: 100;
+}
+
+.touch-dpad, .touch-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.touch-btn {
+    background: #381910;
+    border: 2px solid var(--terracotta);
+    color: #ffffff;
+    font-family: var(--font-arcade);
+    font-size: 16px;
+    padding: 16px 24px;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 4px 0 #733411, inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    transition: transform 0.05s, background 0.05s;
+}
+
+.touch-btn:active {
+    transform: translateY(3px);
+    box-shadow: 0 1px 0 #733411;
+    background: var(--terracotta);
+}
+
+.touch-jump-btn {
+    background: var(--terracotta);
+    border-color: #ff9955;
+    box-shadow: 0 4px 0 #944618;
+    padding: 16px 30px;
+}
+
+.touch-jump-btn:active {
+    background: #ff9955;
+}
+
+/* Responsive Scaling for Phones & Mobile Screens */
+@media (max-width: 850px), (hover: none) and (pointer: coarse) {
+    .touch-controls {
+        display: flex;
+    }
+
+    #app-container {
+        width: 100vw;
+        max-width: 100vw;
+        padding: 4px;
+    }
+
+    .game-wrapper {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    canvas#gameCanvas {
+        width: 100% !important;
+        height: auto !important;
+        max-height: 60vh;
+        object-fit: contain;
+    }
+
+    .hud-header, .controls-bar {
+        width: 100%;
+        padding: 6px 10px;
+    }
+
+    .keys-hint {
+        display: none;
+    }
+}

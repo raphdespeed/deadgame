@@ -1053,6 +1053,39 @@ class GameApp {
         window.addEventListener('keyup', e => {
             this.keys[e.code] = false;
         });
+
+        // Virtual Touch Controls for Phones & Mobile Devices
+        const bindTouchBtn = (elementId, keyName) => {
+            const btn = document.getElementById(elementId);
+            if (!btn) return;
+
+            const press = (e) => {
+                e.preventDefault();
+                audio.init();
+                if (!this.gameActive && !this.gameBeaten) {
+                    this.startGame();
+                }
+                this.keys[keyName] = true;
+            };
+
+            const release = (e) => {
+                e.preventDefault();
+                this.keys[keyName] = false;
+            };
+
+            btn.addEventListener('touchstart', press, { passive: false });
+            btn.addEventListener('touchend', release, { passive: false });
+            btn.addEventListener('touchcancel', release, { passive: false });
+
+            // Mouse fallbacks for testing touch controls on desktop
+            btn.addEventListener('mousedown', press);
+            btn.addEventListener('mouseup', release);
+            btn.addEventListener('mouseleave', release);
+        };
+
+        bindTouchBtn('touch-left', 'ArrowLeft');
+        bindTouchBtn('touch-right', 'ArrowRight');
+        bindTouchBtn('touch-jump', 'ArrowUp');
     }
 
     setupUI() {

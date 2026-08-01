@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>TRAP ADVENTURE: ABSOLUTE CHAOS | Deadgame</title>
     <meta name="description" content="Jeu de plateforme rétro Masocore ultra-difficile avec 8 niveaux sadiques, pièges imprévisibles et physique réactive.">
     <link rel="stylesheet" href="style.css">
@@ -63,6 +63,17 @@
 
             <!-- Game Canvas -->
             <canvas id="gameCanvas"></canvas>
+        </div>
+
+        <!-- Touch Virtual Controller Bar (For Phones / Tablets / Touch Devices) -->
+        <div id="touch-controls" class="touch-controls">
+            <div class="touch-dpad">
+                <button id="touch-left" class="touch-btn">◄</button>
+                <button id="touch-right" class="touch-btn">►</button>
+            </div>
+            <div class="touch-actions">
+                <button id="touch-jump" class="touch-btn touch-jump-btn">▲ SAUT</button>
+            </div>
         </div>
 
         <!-- Bottom Controls & Options Bar -->
