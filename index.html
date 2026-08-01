@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRAP ADVENTURE: ABSOLUTE CHAOS | Deadgame</title>
+    <meta name="description" content="Jeu de plateforme rétro Masocore ultra-difficile avec 8 niveaux sadiques, pièges imprévisibles et physique réactive.">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="app-container">
+        
+        <!-- Top HUD Header Matching Reference Image -->
+        <div class="hud-header">
+            <!-- Level boxes indicators: ■ □ □ □ □ □ □ □ -->
+            <div id="level-boxes" class="level-boxes">
+                <!-- Dynamically populated via JS -->
+            </div>
+
+            <div style="font-family: var(--font-arcade); font-size: 10px; color: #c4a495;">
+                <span id="timer">0.00</span>s
+            </div>
+
+            <!-- Red Salt Badge (Top Right) -->
+            <div class="salt-badge">
+                <span>SALT:</span>
+                <span id="death-count">0</span>
+            </div>
+        </div>
+
+        <!-- Canvas Wrapper & Overlay Layer -->
+        <div class="game-wrapper">
+            <div id="crt-overlay" class="crt-overlay"></div>
+            <div id="death-flash"></div>
+            <div id="insult-banner">ABANDON HOPE</div>
+
+            <!-- Menu Overlay (masqué au lancement pour accès direct) -->
+            <div id="modal-menu" class="modal-overlay hidden">
+                <h1 class="game-title">TRAP ADVENTURE</h1>
+                <div class="game-subtitle">ABSOLUTE CHAOS - MASOCORE</div>
+                <div class="menu-buttons">
+                    <button id="btn-play" class="btn-primary">▶ JOUER</button>
+                    <button id="btn-levels" class="btn-secondary">📋 NIVEAUX (1-8)</button>
+                </div>
+            </div>
+
+            <!-- Level Select Overlay -->
+            <div id="modal-level-select" class="modal-overlay hidden">
+                <h2 class="game-title" style="font-size: 16px;">SÉLECTION DU NIVEAU</h2>
+                <div id="level-grid" class="level-grid"></div>
+                <button id="btn-back-menu" class="btn-secondary">⬅ RETOUR</button>
+            </div>
+
+            <!-- Victory Overlay -->
+            <div id="modal-victory" class="modal-overlay hidden">
+                <h1 class="game-title" style="color: var(--gold); text-shadow: 3px 3px 0 #000;">VICTOIRE !</h1>
+                <div class="game-subtitle" style="color: var(--terracotta);">SURVIVANT DES 8 NIVEAUX !</div>
+                <p style="margin-bottom: 8px; font-size: 14px;">Morts totales : <span id="final-salt" style="color: var(--accent-red); font-family: var(--font-arcade);">0</span></p>
+                <p style="margin-bottom: 24px; font-size: 14px;">Temps total : <span id="final-time" style="color: var(--terracotta); font-family: var(--font-arcade);">0.00</span>s</p>
+                <button id="btn-restart-game" class="btn-primary">🔄 REJOUER</button>
+            </div>
+
+            <!-- Game Canvas -->
+            <canvas id="gameCanvas"></canvas>
+        </div>
+
+        <!-- Bottom Controls & Options Bar -->
+        <div class="controls-bar">
+            <div class="keys-hint">
+                <span>Contrôles :</span>
+                <span class="key-badge">◄</span>
+                <span class="key-badge">►</span>
+                <span style="font-size: 10px;">Déplacement</span>
+                <span class="key-badge">▲</span>
+                <span style="font-size: 10px;">Saut</span>
+            </div>
+            <div class="btn-group">
+                <button id="btn-toggle-crt" class="btn-icon">📺 CRT</button>
+                <button id="btn-toggle-audio" class="btn-icon">🔊 SON: ON</button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Main Game Script -->
+    <script src="game.js"></script>
+</body>
+</html>

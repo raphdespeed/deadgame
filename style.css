@@ -1,0 +1,337 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Outfit:wght@400;600;800&display=swap');
+
+:root {
+    --bg-color: #1a0b07;
+    --game-bg: #2c140d;
+    --terracotta: #e07a38;
+    --card-bg: rgba(35, 15, 10, 0.95);
+    --border-color: #592514;
+    --accent-red: #cc2b19;
+    --gold: #ffcc00;
+    --text-color: #f0e0d6;
+    --font-arcade: 'Press Start 2P', monospace;
+    --font-ui: 'Outfit', sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    user-select: none;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-ui);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background-image: 
+        radial-gradient(circle at 50% 40%, rgba(224, 122, 56, 0.08) 0%, transparent 70%);
+}
+
+/* App Layout Container */
+#app-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Canvas Wrapper & Retro Frame */
+.game-wrapper {
+    position: relative;
+    border-radius: 8px;
+    padding: 6px;
+    background: #140704;
+    box-shadow: 
+        0 20px 50px rgba(0, 0, 0, 0.9),
+        0 0 30px rgba(224, 122, 56, 0.15),
+        inset 0 0 10px rgba(255, 255, 255, 0.05);
+    border: 2px solid var(--border-color);
+    overflow: hidden;
+}
+
+canvas#gameCanvas {
+    display: block;
+    background: #381910;
+    border-radius: 4px;
+    image-rendering: pixelated;
+}
+
+/* Minimal CRT Scanlines Overlay */
+.crt-overlay {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    right: 6px;
+    bottom: 6px;
+    border-radius: 4px;
+    pointer-events: none;
+    z-index: 50;
+    background: 
+        linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.18) 50%);
+    background-size: 100% 4px;
+    transition: opacity 0.3s;
+}
+
+.crt-overlay.disabled {
+    opacity: 0;
+}
+
+/* HUD Top Header (Matching Reference Image) */
+.hud-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 14px;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: var(--font-arcade);
+    font-size: 11px;
+}
+
+/* Level Indicator Boxes (Like ■ □ □ □ □) */
+.level-boxes {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+.level-box {
+    width: 14px;
+    height: 14px;
+    border: 2px solid #e07a38;
+    background: transparent;
+    border-radius: 2px;
+}
+
+.level-box.filled {
+    background: #e07a38;
+}
+
+.level-box.current {
+    background: #ffcc00;
+    border-color: #ffcc00;
+    box-shadow: 0 0 8px rgba(255, 204, 0, 0.8);
+}
+
+/* Red Salt Badge (Top Right) */
+.salt-badge {
+    background: var(--accent-red);
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 4px;
+    font-family: var(--font-arcade);
+    font-size: 10px;
+    box-shadow: 0 2px 0 #731308;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Controls Bar Below Canvas */
+.controls-bar {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 14px;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 12px;
+    color: #c4a495;
+}
+
+.keys-hint {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.key-badge {
+    background: #381910;
+    border: 1px solid #632d1d;
+    border-radius: 4px;
+    padding: 3px 7px;
+    font-family: var(--font-arcade);
+    font-size: 9px;
+    color: #fff;
+}
+
+.btn-group {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-icon {
+    background: #381910;
+    border: 1px solid #632d1d;
+    color: #f0e0d6;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-family: var(--font-ui);
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-icon:hover {
+    background: #592514;
+    color: #fff;
+    border-color: var(--terracotta);
+}
+
+/* UI Modal Overlays (Menu, Game Over, Victory, Level Select) */
+.modal-overlay {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    right: 6px;
+    bottom: 6px;
+    background: rgba(28, 12, 8, 0.94);
+    border-radius: 4px;
+    z-index: 60;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    text-align: center;
+}
+
+.modal-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.game-title {
+    font-family: var(--font-arcade);
+    font-size: 22px;
+    color: var(--terracotta);
+    text-shadow: 3px 3px 0 #000;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+}
+
+.game-subtitle {
+    font-family: var(--font-arcade);
+    font-size: 11px;
+    color: var(--accent-red);
+    margin-bottom: 24px;
+}
+
+.menu-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 240px;
+}
+
+.btn-primary {
+    background: var(--terracotta);
+    border: none;
+    color: #fff;
+    font-family: var(--font-arcade);
+    font-size: 11px;
+    padding: 14px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    box-shadow: 0 4px 0 #9e4c19;
+    transition: transform 0.1s;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    background: #eb8846;
+}
+
+.btn-secondary {
+    background: #381910;
+    border: 1px solid #632d1d;
+    color: #f0e0d6;
+    font-family: var(--font-arcade);
+    font-size: 10px;
+    padding: 12px 18px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.btn-secondary:hover {
+    background: #592514;
+    color: #fff;
+}
+
+/* Level Select Grid */
+.level-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin: 20px 0;
+    width: 100%;
+    max-width: 440px;
+}
+
+.level-card {
+    background: #230f0a;
+    border: 2px solid #592514;
+    border-radius: 6px;
+    padding: 14px 10px;
+    font-family: var(--font-arcade);
+    font-size: 12px;
+    color: #888;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.level-card.unlocked {
+    color: #fff;
+    border-color: var(--terracotta);
+    background: #3d1a10;
+}
+
+.level-card.unlocked:hover {
+    background: #592514;
+}
+
+/* Flash effect for death */
+#death-flash {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    right: 6px;
+    bottom: 6px;
+    background: var(--accent-red);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 45;
+    border-radius: 4px;
+}
+
+/* Insult Banner */
+#insult-banner {
+    position: absolute;
+    top: 38%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: var(--font-arcade);
+    font-size: 26px;
+    color: #ffffff;
+    text-shadow: 4px 4px 0px var(--accent-red);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 55;
+    width: 100%;
+    text-align: center;
+}
